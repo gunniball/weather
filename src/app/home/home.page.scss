@@ -1,0 +1,98 @@
+$input-width: 30%;
+$weather-div-width: 50%;
+$totalMargins: 20px;
+$border-radius: 10px;
+
+ion-content {
+  --background: #fff url('../../assets/bg.jpg') no-repeat center center / cover;
+}
+ion-input {
+  //border: 1px solid black;
+  border-radius: $border-radius;
+  max-width: $input-width!important;
+  --background: #fff;
+  margin-right: $totalMargins;
+}
+ion-button {
+  margin-left: $totalMargins;
+  max-width: 40%;
+}
+.top, .bottom {
+  display: flex;
+  width: 100%;
+}
+.top {
+  margin: $totalMargins 0 0 $totalMargins;
+}
+.bottom {
+  margin: $totalMargins 0 0 0;
+}
+.arrows {
+  margin: $totalMargins 0 $totalMargins 0;
+  width: 100%;
+  height: 50px;
+  padding: 0 25% 0 25%;
+  display: flex;
+}
+.weather-div {
+  width: $weather-div-width;
+  min-height: 500px;
+  background: #fff;
+  border-radius: $border-radius;
+  //background: url("../../assets/sky.jpeg") center center / cover ;
+  background-color: rgba(32,178,170, 0.3) ;
+  //opacity: 0.8;
+}
+.weather-div p {
+  width: 100%;
+  text-align: center;
+  color: rgba(255,255,255,1);
+  font-weight: 700;
+  font-size: 25px;
+  margin-bottom: 0;
+}
+.weather-div hr {
+  width: 90%;
+  margin-left: 5%;
+  height: 5px;
+  background-color: rgba(255,255,255,1);;
+}
+.weather-div img {
+  width: 100px;
+  height: 100px;
+  margin-left: calc(50% - 50px);
+}
+.arrow-left, .arrow-right {
+  background: url("../../assets/metal_arrow.png") no-repeat center center / cover;
+  width: 70px;
+  height: 70px;
+  border-radius: $border-radius;
+  cursor: pointer;
+}
+.arrow-right {
+  margin-left: $totalMargins;
+  transform: rotate(270deg);
+}
+.arrow-left {
+  margin-right: $totalMargins;
+  transform: rotate(90deg);
+}
+.chart-container {
+  background-color: rgba(255,255,255,1);
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: $totalMargins;
+  height: 200px;
+  background: #fff;
+  //border-radius: $border-radius;
+  overflow: auto;
+}
+@media (max-width: 900px) {
+  .weather-div {
+    width: 95%;
+    height: 500px;
+  }
+  .chart-container {
+    height: 150px;
+  }
+}
