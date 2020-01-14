@@ -38,16 +38,12 @@ export class HomePage {
     if (this.city === '') {
       return;
     }
-    ///////////////////////////////////////////////////
     this.url = `http://api.openweathermap.org/data/2.5/forecast?q=${this.city}&appid=4b8151c8aacd8ec56df9c10862bd1ddc`;
     console.log(this.url);
     this.http.get(this.url, {})
     .subscribe(data => {
       const anyData = data as any;
       this.responseList = anyData.list;
-      // for (const hourStat of this.responseList) {
-      //   console.log(hourStat);
-      // }
       this.weatherMap = [];
       this.viewDate = '';
       this.aggregateList();
@@ -62,7 +58,6 @@ export class HomePage {
     this.show = true;
     for (const hourStat of this.responseList) {
       dayStatEnd = false;
-      // console.log(hourStat.main.temp);
       dateTime = hourStat.dt_txt.split(' ');
       if (dateTime[0] !== this.viewDate) {
         if (this.viewDate !== '') {
@@ -98,7 +93,6 @@ export class HomePage {
     if (statObj) {
       this.weatherMap.push(statObj);
       this.responseList = [];
-      // @ViewChild('lineCanvas', null) lineCanvas: ElementRef;
       this.viewPage = this.weatherMap[this.weatherPage];
       this.totalWeatherPages = this.weatherMap.length;
       console.log(this.weatherMap);
@@ -123,9 +117,6 @@ export class HomePage {
               pointHoverRadius: 5,
               pointHoverBackgroundColor: 'rgba(75,192,192,1)',
               pointHoverBorderColor: 'rgba(220,220,220,1)',
-              //pointHoverBorderWidth: 2,
-              //pointRadius: 1,
-              //pointHitRadius: 10,
               data: this.viewPage.charts.temp,
               spanGaps: true
             },
@@ -145,9 +136,6 @@ export class HomePage {
               pointHoverRadius: 5,
               pointHoverBackgroundColor: 'rgba(75,156,102,1)',
               pointHoverBorderColor: 'rgba(220,220,220,1)',
-              //pointHoverBorderWidth: 2,
-              //pointRadius: 1,
-              //pointHitRadius: 10,
               data: this.viewPage.charts.humidity,
               spanGaps: true
             }
@@ -170,7 +158,6 @@ export class HomePage {
       } else {
         this.weatherPage++;
       }
-      //this.viewPage = this.weatherMap[this.weatherPage];
     }
     console.log(this.weatherPage, this.totalWeatherPages);
     this.viewPage = this.weatherMap[this.weatherPage];
@@ -195,9 +182,6 @@ export class HomePage {
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(75,192,192,1)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
-            //pointHoverBorderWidth: 2,
-            //pointRadius: 1,
-            //pointHitRadius: 10,
             data: this.viewPage.charts.temp,
             spanGaps: true
           },
@@ -217,9 +201,6 @@ export class HomePage {
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(75,156,102,1)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
-            //pointHoverBorderWidth: 2,
-            //pointRadius: 1,
-            //pointHitRadius: 10,
             data: this.viewPage.charts.humidity,
             spanGaps: true
           }

@@ -1,20 +1,19 @@
-$input-width: 30%;
-$weather-div-width: 50%;
-$totalMargins: 20px;
-$border-radius: 10px;
+$inputWidth: 30%;
+$weatherDivWidth: 50%;
+$defaultMargins: 20px;
+$borderRadius: 10px;
 
 ion-content {
   --background: #fff url('../../assets/bg.jpg') no-repeat center center / cover;
 }
 ion-input {
-  //border: 1px solid black;
-  border-radius: $border-radius;
-  max-width: $input-width!important;
+  border-radius: $borderRadius;
+  max-width: $inputWidth !important;
   --background: #fff;
-  margin-right: $totalMargins;
+  margin-right: $defaultMargins;
 }
 ion-button {
-  margin-left: $totalMargins;
+  margin-left: $defaultMargins;
   max-width: 40%;
 }
 .top, .bottom {
@@ -22,26 +21,24 @@ ion-button {
   width: 100%;
 }
 .top {
-  margin: $totalMargins 0 0 $totalMargins;
+  margin: $defaultMargins 0 0 $defaultMargins;
 }
 .bottom {
-  margin: $totalMargins 0 0 0;
+  margin: $defaultMargins 0 0 0;
 }
 .arrows {
-  margin: $totalMargins 0 $totalMargins 0;
+  margin: $defaultMargins 0 $defaultMargins 0;
   width: 100%;
   height: 50px;
   padding: 0 25% 0 25%;
   display: flex;
 }
 .weather-div {
-  width: $weather-div-width;
+  width: $weatherDivWidth;
   min-height: 500px;
   background: #fff;
-  border-radius: $border-radius;
-  //background: url("../../assets/sky.jpeg") center center / cover ;
+  border-radius: $borderRadius;
   background-color: rgba(32,178,170, 0.3) ;
-  //opacity: 0.8;
 }
 .weather-div p {
   width: 100%;
@@ -66,25 +63,24 @@ ion-button {
   background: url("../../assets/metal_arrow.png") no-repeat center center / cover;
   width: 70px;
   height: 70px;
-  border-radius: $border-radius;
+  border-radius: $borderRadius;
   cursor: pointer;
 }
 .arrow-right {
-  margin-left: $totalMargins;
+  margin-left: $defaultMargins;
   transform: rotate(270deg);
 }
 .arrow-left {
-  margin-right: $totalMargins;
+  margin-right: $defaultMargins;
   transform: rotate(90deg);
 }
 .chart-container {
   background-color: rgba(255,255,255,1);
   width: 90%;
   margin-left: 5%;
-  margin-bottom: $totalMargins;
+  margin-bottom: $defaultMargins;
   height: 200px;
   background: #fff;
-  //border-radius: $border-radius;
   overflow: auto;
 }
 @media (max-width: 900px) {
