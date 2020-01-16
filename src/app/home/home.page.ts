@@ -11,7 +11,7 @@ import { Chart } from 'chart.js';
 export class HomePage {
   @ViewChild('lineCanvas', null) lineCanvas: ElementRef;
 
-  public lineChart: Chart;
+  private lineChart: Chart;
   city = 'Mykolaiv';
   url = '';
   responseList: any = [];
@@ -19,18 +19,31 @@ export class HomePage {
   weatherPage = 0;
   viewDate = '';
   weatherMap: any = [];
-  viewPage = {
+  /*viewPage = {
     city: '',
     date: '',
     temp: '',
+    description: '',
     image: ``,
     charts: {
       time: [],
       temp: [],
       humidity: []
     }
+  };*/
+  viewPage = {
+    city: '',
+    date: '',
+    hourly: []
   };
-  show = false;
+  showWeatherCard = false;
+  showChart = false;
+  showNavButtons = false;
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400,
+    autoplay: 1
+  }
   ////////////////////////////////////////////
   constructor(public http: HttpClient) {}
   ////////////////////////////////////////////
@@ -53,11 +66,11 @@ export class HomePage {
   }
   ////////////////////////////////////////////
   aggregateList() {
-    let dateTime = [], dayStatEnd = false;
-    let statObj = null;
-    this.show = true;
+    let dateTime = [], statObj = null, hourlyObj = null, temp = 0;
+    this.showWeatherCard = this.showNavButtons = true;
+    console.log(this);
     for (const hourStat of this.responseList) {
-      dayStatEnd = false;
+      //console.log(hourStat);
       dateTime = hourStat.dt_txt.split(' ');
       if (dateTime[0] !== this.viewDate) {
         if (this.viewDate !== '') {
@@ -66,29 +79,29 @@ export class HomePage {
         statObj = {
           city: '',
           date: '',
-          temp: '',
-          image: `https://openweathermap.org/img/wn/${hourStat.weather[0].icon}@2x.png`,
-          charts: {
-            time: [],
-            temp: [],
-            humidity: []
-          }
+          hourly: []
         };
         this.viewDate = statObj.date = dateTime[0];
-        const temp = Math.round(hourStat.main.temp - 273);
-        if (temp > 0) {
-          statObj.temp = '+' + temp;
-        } else if (temp === 0) {
-          statObj.temp = '-' + temp;
-        } else {
-          statObj.temp = temp;
-        }
         statObj.city = this.city;
       }
+      hourlyObj = {
+          time: '',
+          temp: '',
+          description: '',
+          image: `https://openweathermap.org/img/wn/${hourStat.weather[0].icon}@2x.png`,
+          humidity: ''
+      };
       dateTime = dateTime[1].split(':');
-      statObj.charts.time.push(dateTime[0] + ':' + dateTime[1]);
-      statObj.charts.temp.push(Math.round(hourStat.main.temp - 273));
-      statObj.charts.humidity.push(hourStat.main.humidity);
+      hourlyObj.time = dateTime[0] + ':' + dateTime[1];
+      hourlyObj.description = hourStat.weather[0].description;
+      hourlyObj.humidity = hourStat.main.humidity;
+        temp = Math.round(hourStat.main.temp - 273);
+        if (temp > 0) {
+          hourlyObj.temp = '+' + temp;
+        } else {
+          hourlyObj.temp = temp;
+        }
+        statObj.hourly.push(hourlyObj);
     }
     if (statObj) {
       this.weatherMap.push(statObj);
@@ -96,52 +109,7 @@ export class HomePage {
       this.viewPage = this.weatherMap[this.weatherPage];
       this.totalWeatherPages = this.weatherMap.length;
       console.log(this.weatherMap);
-      this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-        type: 'line',
-        data: {
-          labels: this.viewPage.charts.time,
-          datasets: [
-            {
-              label: 'Temp',
-              fill: false,
-              lineTension: 0.1,
-              backgroundColor: 'rgba(75,192,192,0.4)',
-              borderColor: 'rgba(75,192,192,1)',
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: 'rgba(75,192,192,1)',
-              pointBackgroundColor: '#fff',
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-              pointHoverBorderColor: 'rgba(220,220,220,1)',
-              data: this.viewPage.charts.temp,
-              spanGaps: true
-            },
-            {
-              label: 'Humidity',
-              fill: false,
-              lineTension: 0.1,
-              backgroundColor: 'rgba(75,156,102,0.4)',
-              borderColor: 'rgba(75,156,102,1)',
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: 'rgba(75,156,102,1)',
-              pointBackgroundColor: '#fff',
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: 'rgba(75,156,102,1)',
-              pointHoverBorderColor: 'rgba(220,220,220,1)',
-              data: this.viewPage.charts.humidity,
-              spanGaps: true
-            }
-          ]
-        }
-      });
+      this.fillChart();
     }
   }
   //////////////////////////////////////////////////
@@ -161,51 +129,62 @@ export class HomePage {
     }
     console.log(this.weatherPage, this.totalWeatherPages);
     this.viewPage = this.weatherMap[this.weatherPage];
+    this.fillChart();
+  }
+  //////////////////////////////////////////////////
+  fillChart () {
+    let time = [], temp = [], humidity = [];
+    for (const stat of this.viewPage.hourly) {
+      time.push(stat.time);
+      temp.push(stat.temp);
+      humidity.push(stat.humidity);
+    }
+    console.log(time, temp, humidity);
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-      type: 'line',
-      data: {
-        labels: this.viewPage.charts.time,
-        datasets: [
-          {
-            label: 'Temp',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            data: this.viewPage.charts.temp,
-            spanGaps: true
-          },
-          {
-            label: 'Humidity',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,156,102,0.4)',
-            borderColor: 'rgba(75,156,102,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,156,102,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,156,102,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            data: this.viewPage.charts.humidity,
-            spanGaps: true
+          type: 'line',
+          data: {
+            labels: time,
+            datasets: [
+              {
+                label: 'Temp',
+                fill: false,
+                lineTension: 0.1,
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: 'rgba(75,192,192,1)',
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                pointHoverBorderColor: 'rgba(220,220,220,1)',
+                data: temp,
+                spanGaps: true
+              },
+              {
+                label: 'Humidity',
+                fill: false,
+                lineTension: 0.1,
+                backgroundColor: 'rgba(75,156,102,0.4)',
+                borderColor: 'rgba(75,156,102,1)',
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: 'rgba(75,156,102,1)',
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgba(75,156,102,1)',
+                pointHoverBorderColor: 'rgba(220,220,220,1)',
+                data: humidity,
+                spanGaps: true
+              }
+            ]
           }
-        ]
-      }
-    });
+      });
   }
 }
