@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { Chart } from 'chart.js';
 
 @Component({
@@ -19,18 +18,6 @@ export class HomePage {
   weatherPage = 0;
   viewDate = '';
   weatherMap: any = [];
-  /*viewPage = {
-    city: '',
-    date: '',
-    temp: '',
-    description: '',
-    image: ``,
-    charts: {
-      time: [],
-      temp: [],
-      humidity: []
-    }
-  };*/
   viewPage = {
     city: '',
     date: '',
