@@ -8,87 +8,60 @@ ion-content {
 }
 ion-input {
   border-radius: $borderRadius;
-  max-width: $inputWidth !important;
+  //max-width: $inputWidth !important;
   --background: #fff;
   margin-right: $defaultMargins;
 }
-ion-button {
-  margin-left: $defaultMargins;
-  max-width: 40%;
+#weather {
+  --background: rgba(0,250,154, 0.1);
+  border-radius: 10px;
 }
-.top, .bottom {
-  display: flex;
-  width: 100%;
+#chart, #slide {
+  --background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  min-width: 98%!important;
+  margin-left: 1%;
 }
-.top {
-  margin: $defaultMargins 0 0 $defaultMargins;
+#btn-row {
+  padding: 0!important;
 }
-.bottom {
-  margin: $defaultMargins 0 0 0;
-}
-.arrows {
-  margin: $defaultMargins 0 $defaultMargins 0;
-  width: 100%;
-  height: 50px;
-  padding: 0 25% 0 25%;
-  display: flex;
-}
-.weather-div {
-  width: $weatherDivWidth;
-  min-height: 500px;
-  background: #fff;
-  border-radius: $borderRadius;
-  background-color: rgba(32,178,170, 0.3) ;
-}
-.weather-div p {
-  width: 100%;
+ion-card-title, ion-card-subtitle {
   text-align: center;
-  color: rgba(255,255,255,1);
-  font-weight: 700;
-  font-size: 25px;
-  margin-bottom: 0;
 }
-.weather-div hr {
-  width: 90%;
-  margin-left: 5%;
-  height: 5px;
-  background-color: rgba(255,255,255,1);;
+ion-card-subtitle {
+  font-size: 18;
 }
-.weather-div img {
-  width: 100px;
-  height: 100px;
-  margin-left: calc(50% - 50px);
+img {
+  width: 120px;
+  height: 120px;
+  margin-left: calc(50% - 60px);
+  border-radius: 50%;
 }
-.arrow-left, .arrow-right {
-  background: url("../../assets/metal_arrow.png") no-repeat center center / cover;
-  width: 70px;
-  height: 70px;
-  border-radius: $borderRadius;
-  cursor: pointer;
+ion-item {
+  --background: transparent!important;
+  border-radius: 10px;
+  padding: 0!important;
+  overflow: visible!important;
 }
-.arrow-right {
-  margin-left: $defaultMargins;
-  transform: rotate(270deg);
+ion-checkbox {
+  border: 0;
 }
-.arrow-left {
-  margin-right: $defaultMargins;
-  transform: rotate(90deg);
+ion-button {
+  width: 100%;
+}
+ion-label {
+  font-weight: 800;
+  font-size: 1.2rem!important;
+  overflow: visible!important;
+  padding: 0!important;
+}
+#toggle-div {
+  overflow: visible!important;
 }
 .chart-container {
   background-color: rgba(255,255,255,1);
-  width: 90%;
-  margin-left: 5%;
+  width: 100%;
+  height: 100%;
   margin-bottom: $defaultMargins;
-  height: 200px;
-  background: #fff;
   overflow: auto;
-}
-@media (max-width: 900px) {
-  .weather-div {
-    width: 95%;
-    height: 500px;
-  }
-  .chart-container {
-    height: 150px;
-  }
 }
